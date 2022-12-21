@@ -4,9 +4,9 @@ FROM archlinux:$TAG
 
 # Install git and ansible
 RUN pacman -Syyu --noconfirm
-RUN pacman -Sy --noconfirm git ansible
+RUN pacman -Sy --noconfirm git ansible openssh
 
-RUN mkdir /root/da_setuper
-WORKDIR /root/da_setuper
+RUN mkdir -p /home/root/da_setuper
+WORKDIR /home/root/da_setuper
 COPY . .
 

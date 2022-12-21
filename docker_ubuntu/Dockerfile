@@ -5,8 +5,8 @@ FROM ubuntu:$TAG
 
 # Install git and ansible
 RUN apt update
-RUN DEBIAN_FRONTEND=$DEBIAN_FRONTEND apt -y install git ansible
+RUN DEBIAN_FRONTEND=$DEBIAN_FRONTEND apt -y install git ansible openssh-client
 
-RUN mkdir /root/da_setuper
-WORKDIR /root/da_setuper
-COPY . 
+RUN mkdir -p /home/root/da_setuper
+WORKDIR /home/root/da_setuper
+COPY . .

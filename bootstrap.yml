@@ -18,3 +18,5 @@
     - base
     - apps
     - neovim
+    - desktop_engine
+    - cargo_tools

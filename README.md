@@ -2,9 +2,9 @@
 Ansible playbook to setup completely a dev environment
 
 # requirements
-- git
-- ansible
-- sudo
+* git
+* ansible
+* sudo
 
 # To use
 ```bash

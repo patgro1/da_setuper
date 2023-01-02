@@ -1,0 +1,17 @@
+- name: Install ytop for process management
+  community.general.cargo:
+    name: ytop
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.cargo/bin:{{ ansible_env.PATH }}"
+
+- name: Install cargo bininstall for binary installation
+  community.general.cargo:
+    name: cargo-binstall
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.cargo/bin:{{ ansible_env.PATH }}"
+
+- name: Install cargo-watch for rust repo action on change
+  community.general.cargo:
+    name: cargo-watch
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.cargo/bin:{{ ansible_env.PATH }}"

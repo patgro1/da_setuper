@@ -1,0 +1,3 @@
+collections:
+  # Install latest version of community general
+  - name: community.general

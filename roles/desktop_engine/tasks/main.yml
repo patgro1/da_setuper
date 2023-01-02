@@ -1,0 +1,8 @@
+- include_vars: "{{ ansible_facts['distribution'] | lower }}.yml"
+
+- name: install desktop engine packages
+  become: yes
+  ansible.builtin.package:
+    name: "{{ __packages | list }}"
+    state: present
+

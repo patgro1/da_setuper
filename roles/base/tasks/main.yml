@@ -1,0 +1,8 @@
+- include_vars: "{{ ansible_facts['distribution'] | lower }}.yml"
+  name: __packages
+
+- include_tasks: install_base_packages.yml
+- include_tasks: install_dotfiles.yml
+- include_tasks: install_rust.yml
+
+

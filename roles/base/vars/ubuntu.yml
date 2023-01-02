@@ -1,0 +1,6 @@
+__packages: 
+  - ripgrep
+  - fd-find
+  - zsh
+  - fish
+  - openssh-client

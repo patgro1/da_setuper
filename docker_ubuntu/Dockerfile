@@ -3,12 +3,20 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 FROM ubuntu:$TAG
 
+ARG USER=pat
+
 # Install git and ansible
 RUN apt update
-RUN DEBIAN_FRONTEND=$DEBIAN_FRONTEND apt -y install ansible git
+RUN DEBIAN_FRONTEND=$DEBIAN_FRONTEND apt -y install ansible git sudo
 
-RUN mkdir -p /home/root/da_setuper
-WORKDIR /home/root/da_setuper
-COPY . .
+ENV USER ${USER}
+ENV HOME /home/${USER}
+RUN useradd -m -s /bin/bash -N -u 1000 $USER && \
+    echo "${USER} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers && \
+    chmod 0440 /etc/sudoers && \
+    chmod g+w /etc/passwd
 
-CMD ansible-playbook bootstrap.yml --verbose
+USER ${USER}
+
+WORKDIR /home/${USER}
+

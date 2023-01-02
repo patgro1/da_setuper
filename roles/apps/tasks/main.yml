@@ -1,0 +1,31 @@
+- include_vars: "{{ ansible_facts['distribution'] | lower }}.yml"
+- include_vars: "commons.yml"
+
+- name: add repos for ubuntu
+  become: yes
+  ansible.builtin.apt_repository:
+    repo: "{{ item }}"
+  loop: "{{ __repos }}"
+  when: ansible_facts['distribution'] == "Ubuntu"
+
+
+
+- include_tasks: install_dotfiles.yml
+- include_tasks: install_repo_apps.yml
+- include_tasks: install_rust.yml
+
+# - name: setup paru for archlinux
+- name: Clone and install paru for Archlinux
+  block:
+    - name: Clone paru
+      ansible.builtin.git: 
+        repo: https://aur.archlinux.org/paru.git
+        clone: yes
+        dest: "{{ ansible_env.HOME }}/workspace/paru"
+    - name: build paru
+      ansible.builtin.command: "makepkg -sri --noconfirm"
+      args:
+        chdir: "{{ ansible_env.HOME }}/workspace/paru" 
+  when: ansible_facts['distribution'] == "Archlinux"
+
+

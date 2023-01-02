@@ -1,8 +1,11 @@
 - name: clone dotfiles
+  become: no
   ansible.builtin.git: 
     repo: git@github.com:patgro1/dotfiles.git
     clone: yes
     dest: "{{ ansible_env.HOME }}/dotfiles"
+    version: main
+    accept_hostkey: true
 - name: install dotfiles
   ansible.builtin.command: make
   args:

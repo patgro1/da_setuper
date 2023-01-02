@@ -1,9 +1,7 @@
 __packages: 
-  - ripgrep
-  - fd
-  - zsh
-  - fish
   - openssh
-  - which
-  - stow
   - make
+  - base-devel
+  - stow  # Make sure stow is present before dotfiles are set
+  - fontconfig
+  - tmux

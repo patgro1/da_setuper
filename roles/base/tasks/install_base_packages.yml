@@ -1,4 +1,0 @@
-- name: install base packages
-  ansible.builtin.package:
-    name: "{{ __packages | list }}"
-    state: present

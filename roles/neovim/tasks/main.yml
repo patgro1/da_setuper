@@ -5,6 +5,7 @@
   ansible.builtin.package:
     name: "{{ __packages | list }}"
     state: present
+  become: yes
 
 - name: clone neovim repo
   ansible.builtin.git:

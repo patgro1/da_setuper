@@ -1,6 +1,8 @@
 __packages: 
-  - ripgrep
-  - fd-find
-  - zsh
-  - fish
   - openssh-client
+  - make
+  - gnupg
+  - curl
+  - stow  # Make sure stow is present before dotfiles are set
+  - fontconfig
+

@@ -15,3 +15,9 @@
     name: cargo-watch
   environment:
     PATH: "{{ ansible_env.HOME }}/.cargo/bin:{{ ansible_env.PATH }}"
+
+- name: Install cargo-watch for rust repo action on change
+  community.general.cargo:
+    name: alacritty
+  environment:
+    PATH: "{{ ansible_env.HOME }}/.cargo/bin:{{ ansible_env.PATH }}"

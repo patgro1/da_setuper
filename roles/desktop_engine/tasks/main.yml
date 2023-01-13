@@ -6,6 +6,28 @@
     name: "{{ __packages | list }}"
     state: present
 
+- name: install picom on ubuntu
+  block:
+    - name: Clone picom
+      ansible.builtin.git:
+        repo: "https://github.com/yshui/picom.git"
+        version: "v10.2"
+        clone: yes
+        dest: "{{ ansible_env.HOME }}/workspace/picom"
+    - name: Setup build picom on ubuntu
+      ansible.builtin.command: "meson setup --buildtype=release . build"
+      args:
+        chdir: "{{ ansible_env.HOME }}/workspace/picom" 
+    - name: Build picom on ubuntu
+      ansible.builtin.command: "ninja -C build"
+      args:
+        chdir: "{{ ansible_env.HOME }}/workspace/picom" 
+    - name: Install picom on ubuntu
+      become: yes
+      ansible.builtin.command: "ninja -C build install"
+      args:
+        chdir: "{{ ansible_env.HOME }}/workspace/picom" 
+  when: ansible_distribution == "Ubuntu"
 - name: install betterlockscreen on ubuntu
   block:
     - name: Clone i3lock-color

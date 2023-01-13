@@ -3,7 +3,6 @@ DISTRO_VERSION ?= latest
 
 DOCKER_IMAGE_NAME := test_$(DISTRO)_$(DISTRO_VERSION)
 DOCKER_IMAGE_FOLDER := docker_$(DISTRO)
-SSH_KEY_PROTOCOL := ed25519
 
 USER = $(shell whoami)
 HOME_DIR = /home/$(USER)

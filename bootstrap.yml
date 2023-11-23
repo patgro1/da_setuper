@@ -17,6 +17,6 @@
   roles:
     - base
     - apps
-    - neovim
     - desktop_engine
+    - neovim
     - cargo_tools

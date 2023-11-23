@@ -1,4 +1,21 @@
-- include_vars: "{{ ansible_facts['distribution'] | lower }}.yml"
+- name: Conditionally include vars for distribution if not ubuntu
+  ansible.builtin.include_vars:
+    file: "{{ ansible_facts['distribution'] | lower }}.yml"
+  when: ansible_distribution != "Ubuntu"
+
+- name: Conditionally include vars for X11 for distribution if ubuntu and version is lower than 22
+  ansible.builtin.include_vars:
+    file: "ubuntu_x11.yml"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_major_version|int < 22
+
+- name: Conditionally include vars for wayland for distribution if ubuntu and version is at least 22
+  ansible.builtin.include_vars:
+    file: "ubuntu_sway.yml"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_major_version|int >= 22
 
 - name: install desktop engine packages
   become: yes
@@ -17,17 +34,19 @@
     - name: Setup build picom on ubuntu
       ansible.builtin.command: "meson setup --buildtype=release . build"
       args:
-        chdir: "{{ ansible_env.HOME }}/workspace/picom" 
+        chdir: "{{ ansible_env.HOME }}/workspace/picom"
     - name: Build picom on ubuntu
       ansible.builtin.command: "ninja -C build"
       args:
-        chdir: "{{ ansible_env.HOME }}/workspace/picom" 
+        chdir: "{{ ansible_env.HOME }}/workspace/picom"
     - name: Install picom on ubuntu
       become: yes
       ansible.builtin.command: "ninja -C build install"
       args:
-        chdir: "{{ ansible_env.HOME }}/workspace/picom" 
-  when: ansible_distribution == "Ubuntu"
+        chdir: "{{ ansible_env.HOME }}/workspace/picom"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_major_version|int < 22
 - name: install betterlockscreen on ubuntu
   block:
     - name: Clone i3lock-color
@@ -39,12 +58,12 @@
     - name: Build i3lock-color on ubuntu
       ansible.builtin.command: "./build.sh"
       args:
-        chdir: "{{ ansible_env.HOME }}/workspace/i3lock-color" 
+        chdir: "{{ ansible_env.HOME }}/workspace/i3lock-color"
     - name: Install i3lock-color on ubuntu
       become: yes
       ansible.builtin.command: "make install"
       args:
-        chdir: "{{ ansible_env.HOME }}/workspace/i3lock-color/build" 
+        chdir: "{{ ansible_env.HOME }}/workspace/i3lock-color/build"
     - name: fetch betterlockscreen
       ansible.builtin.get_url:
         url: "https://raw.githubusercontent.com/betterlockscreen/betterlockscreen/next/betterlockscreen"
@@ -55,9 +74,9 @@
       ansible.builtin.command: "cp {{ ansible_env.HOME }}/betterlockscreen /usr/bin/betterlockscreen"
     - name: remove betterlockscreen download
       ansible.builtin.command: "rm {{ ansible_env.HOME }}/betterlockscreen"
-      args:
-        warn: false
-  when: ansible_distribution == "Ubuntu"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_major_version|int < 22
 - name: install betterlockscreen on Archlinux
   # become: yes
   become_user: aur_builder

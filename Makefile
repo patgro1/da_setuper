@@ -20,6 +20,3 @@ build_docker: $(DOCKER_IMAGE_FOLDER)/Dockerfile
 
 test: build_docker
 	docker run -it --rm  -v $(shell pwd):$(HOME_DIR)/da_setuper -v ${HOME}/.ssh:/${HOME_DIR}/.ssh/ $(DOCKER_IMAGE_NAME)
-
-toto:
-	echo $(shell dirname $(SSH_AUTH_SOCK)) -e SSH_AUTH_SOCK=$(SSH_AUTH_SOCK)

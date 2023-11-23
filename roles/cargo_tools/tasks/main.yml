@@ -1,3 +1,12 @@
+- include_vars: "{{ ansible_facts['distribution'] | lower }}.yml"
+  name: __packages
+
+- name: install cargo tools dependencies
+  ansible.builtin.package:
+    name: "{{ __packages | list }}"
+    state: present
+  become: yes
+
 - name: Install ytop for process management
   community.general.cargo:
     name: ytop
@@ -16,7 +25,7 @@
   environment:
     PATH: "{{ ansible_env.HOME }}/.cargo/bin:{{ ansible_env.PATH }}"
 
-- name: Install cargo-watch for rust repo action on change
+- name: Install alacritty as a terminal
   community.general.cargo:
     name: alacritty
   environment:

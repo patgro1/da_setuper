@@ -19,4 +19,4 @@ build_docker: $(DOCKER_IMAGE_FOLDER)/Dockerfile
 	docker build -t $(DOCKER_IMAGE_NAME) -f $(DOCKER_IMAGE_FOLDER)/Dockerfile --build-arg TAG=$(DISTRO_VERSION) --build-arg USER=$(USER) .
 
 test: build_docker
-	docker run -it --rm  -v $(shell pwd):$(HOME_DIR)/da_setuper -v ${HOME}/.ssh:/${HOME_DIR}/.ssh/ $(DOCKER_IMAGE_NAME)
+	docker run -it --rm  -v $(shell pwd):$(HOME_DIR)/da_setuper -v $(shell dirname $(SSH_AUTH_SOCK)):$(shell dirname $(SSH_AUTH_SOCK)) -e SSH_AUTH_SOCK=$(SSH_AUTH_SOCK) $(DOCKER_IMAGE_NAME)
